@@ -2,8 +2,10 @@
  * API:
  */
 window['drumsReady'] = false;
-let playPauseDrums;
-let generateDrums;
+let playPauseDrums,
+  generateDrums,
+  getDrumState,
+  getDrumStepCounter;
 
 
 const DRUM_CLASSES = [
@@ -678,6 +680,14 @@ Promise.all([
         }
       }
     );
+  }
+
+  getDrumState = function () {
+    return state;
+  }
+
+  getDrumStepCounter = function () {
+    return stepCounter;
   }
 
   window['drumsReady'] = true;

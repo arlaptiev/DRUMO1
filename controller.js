@@ -6,42 +6,76 @@ class Controller {
 
     // This is the state we start with.
     constructor() {
-        this.gameState = "PLAY";
-        this.gameTime;
-        let seed = [[1,2,3,4,5,6], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]];
-        whenAvailable('drumsReady', () => {
-            // playPauseDrums()
-            generateDrums(seed)
-        });
-    }
+        this.gameState = "LOAD";
+        this.stepIndx;
+        this.userInput;
+        this.defaultInstrument = 1;
 
-    get_pattern() {
-        
+        whenAvailable('drumsReady', () => {
+            playPauseDrums();
+            this.gameState = "PLAY";
+        });
     }
     
     // This is called from draw() in sketch.js with every frame
     update() {
-
         // STATE MACHINE ////////////////////////////////////////////////
         // This is where your game logic lives
         /////////////////////////////////////////////////////////////////
+
         switch(this.gameState) {
 
-            // This is the main game state, where the playing actually happens
+            case "LOAD":
+                display.clear();
+                display.setPixel(0, color(250, 0, 0))
+
+                break;
+
+
             case "PLAY":
+
+                // waiting for user input from keyPressed()
+
+                // update step index
+                this.stepIndx = getDrumStepCounter() % getDrumState().patternLength;
 
                 // clear screen at frame rate so we always start fresh      
                 display.clear();
-            
-                // show all players in the right place, by adding them to display buffer
-                display.setPixel(0, color(250, 0, 0));
-                display.setPixel(1, color(0, 250, 0));
-                display.setPixel(2, color(0, 0, 250));
+                display.setPixel(0, color(0, 250, 0))
 
-                display.show_pattern([[1], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]]);
-                display.show_slider(10);
+                // display.show_pattern([[1], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]]);
+                // display.show_slider(10);
+
+                // switch mode
+                if (this.stepIndx == getDrumState().seedLength) {
+                    this.gameState = "GEN";
+                }
 
                 break;
+
+
+            case "GEN":
+
+                // update step index
+                this.stepIndx = getDrumStepCounter() % getDrumState().patternLength;
+
+                // generate drums if user input is available
+                if (this.userInput) {
+                    generateDrums(this.userInput);
+                    this.userInput = null;
+                }
+
+                // clear screen at frame rate so we always start fresh      
+                display.clear();
+                display.setPixel(0, color(0, 0, 250));
+
+                // switch mode
+                if (this.stepIndx == 0) {
+                    this.gameState = "PLAY";
+                }
+
+                break;
+
 
             // Not used, it's here just for code compliance
             default:
@@ -53,29 +87,38 @@ class Controller {
 
 
 
+
+
 // This function gets called when a key on the keyboard is pressed
 function keyPressed() {
 
-    // Move player one to the left if letter A is pressed
+    // TODO remove overflow to neighbor steps
     if (key == 'A' || key == 'a') {
-        playerOne.move(-1);
-      }
-    
-    // And so on...
-    if (key == 'D' || key == 'd') {
-    playerOne.move(1);
-    }    
+        console.log('A PRESS', controller.userInput)
 
-    if (key == 'J' || key == 'j') {
-    playerTwo.move(-1);
-    }
-    
-    if (key == 'L' || key == 'l') {
-    playerTwo.move(1);
-    }
+        // drum machine is ready
+        if (window['drumsReady']) {
+            let step = getDrumStepCounter() % getDrumState().patternLength;
+
+            // only allow user input in play mode
+            if (step > -1 && step < getDrumState().seedLength) {
+
+                // initialize user input array
+                if (!controller.userInput) {
+                    controller.userInput = _.times(getDrumState().seedLength, i => []);
+                }
+                controller.userInput[controller.stepIndx] = [controller.defaultInstrument];
+            } 
+        }
+      }
+
+    if (key == 'B' || key == 'b') {
+        console.log('USRINPT', controller.userInput)
+        console.log('STEP', controller.stepIndx)
+      }
     
     // When you press the letter R, the game resets back to the play state
     if (key == 'R' || key == 'r') {
-    controller.gameState = "PLAY";
+        controller.gameState = "PLAY";
     }
   }
