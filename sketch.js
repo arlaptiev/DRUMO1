@@ -12,7 +12,7 @@
 
 
 let displaySize = 32;   // how many pixels are visible in the game
-let pixelSize = 10;     // how big should they look on screen
+let pixelSize = 30;     // how big should they look on screen
 
 let display;      // Aggregates our final visual output before showing it on the screen
 

@@ -41,10 +41,10 @@ class Controller {
 
                 // clear screen at frame rate so we always start fresh      
                 display.clear();
-                display.setPixel(0, color(0, 250, 0))
+                // display.setPixel(0, color(0, 250, 0))
 
-                // display.show_pattern([[1], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]]);
-                // display.show_slider(10);
+                display.showPattern(getDrumState().pattern);
+                display.showSlider(this.stepIndx);
 
                 // switch mode
                 if (this.stepIndx == getDrumState().seedLength) {
@@ -67,7 +67,10 @@ class Controller {
 
                 // clear screen at frame rate so we always start fresh      
                 display.clear();
-                display.setPixel(0, color(0, 0, 250));
+                // display.setPixel(0, color(0, 0, 250));
+
+                display.showPattern(getDrumState().pattern);
+                display.showSlider(this.stepIndx);
 
                 // switch mode
                 if (this.stepIndx == 0) {
