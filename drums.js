@@ -657,11 +657,9 @@ Promise.all([
   }
 
   generateDrums = function (seed) {
-    console.log('GENERATING DRUMS, CALLED FROM OUTSIDE', seed)
     // renderPattern(true); // renders, do i need it?
     return generatePattern(seed, state.patternLength - seed.length).then(
       result => {
-        console.log('GENERATED DRUMS, GOT RESULT', result)
         // TODO maybe wait until end of the bar???
         state.pattern = result;
         // onPatternUpdated(); // renders, do i need it??
