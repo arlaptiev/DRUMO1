@@ -97,7 +97,6 @@ function keyPressed() {
 
     // TODO remove overflow to neighbor steps
     if (key == 'A' || key == 'a') {
-        console.log('A PRESS', controller.userInput)
 
         // drum machine is ready
         if (window['drumsReady']) {
@@ -117,7 +116,6 @@ function keyPressed() {
 
     // change tempo
     if (keyCode == UP_ARROW) {
-        console.log('UP_ARROW')
         if (window['drumsReady']) {
             setDrumState({ tempo: getDrumState().tempo + 0.5 });
         }
