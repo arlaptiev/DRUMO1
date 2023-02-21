@@ -117,7 +117,7 @@ class Display {
       }
           }
     showSlider(slider){}
-
+          
     // Now write it to screen
     // This is the only function in the entire software that writes something directly to the screen.
     show() {
