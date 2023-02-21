@@ -115,13 +115,50 @@ function keyPressed() {
         }
       }
 
-    if (key == 'B' || key == 'b') {
-        console.log('USRINPT', controller.userInput)
-        console.log('STEP', controller.stepIndx)
+    // change tempo
+    if (keyCode == UP_ARROW) {
+        console.log('UP_ARROW')
+        if (window['drumsReady']) {
+            setDrumState({ tempo: getDrumState().tempo + 0.5 });
+        }
       }
-    
-    // When you press the letter R, the game resets back to the play state
-    if (key == 'R' || key == 'r') {
-        controller.gameState = "PLAY";
+    if (keyCode == DOWN_ARROW) {
+        if (window['drumsReady']) {
+            setDrumState({ tempo: getDrumState().tempo - 0.5 });
+        }
+      }
+
+    // change instrument
+    if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9') {
+        controller.defaultInstrument = parseInt(key);
+      }
+
+    // change temperture
+    if (key == ':' || key == ';') {
+        if (window['drumsReady']) {
+            let newTemp = getDrumState().temperature + 0.25 > 1 ? 1.0 : getDrumState().temperature + 0.25;
+            setDrumState({ temperature: newTemp });
+        }
+      }
+    if (key == 'L' || key == 'l') {
+        if (window['drumsReady']) {
+            let newTemp = getDrumState().temperature - 0.25 < 0 ? 0.0 : getDrumState().temperature - 0.25;
+            setDrumState({ temperature: newTemp });
+        }
     }
+    
+    // change swing
+    if (key == '>' || key == '.') {
+        if (window['drumsReady']) {
+            let newSwing = getDrumState().swing + 0.25 > 1 ? 1.0 : getDrumState().swing + 0.25;
+            setDrumState({ swing: newSwing });
+        }
+      }
+    if (key == '<' || key == ',') {
+        if (window['drumsReady']) {
+            let newSwing = getDrumState().swing - 0.25 < 0 ? 0.0 : getDrumState().swing - 0.25;
+            setDrumState({ swing: newSwing });
+        }
+    }
+    
   }

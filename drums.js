@@ -5,7 +5,8 @@ window['drumsReady'] = false;
 let playPauseDrums,
   generateDrums,
   getDrumState,
-  getDrumStepCounter;
+  getDrumStepCounter,
+  setDrumState;
 
 
 const DRUM_CLASSES = [
@@ -145,8 +146,6 @@ let reverseMidiMapping = new Map([
   [82, 8]
 ]);
 
-let temperature = 1.0;
-
 let outputs = {
   internal: {
     play: (drumIdx, velocity, time) => {
@@ -167,7 +166,8 @@ Promise.all([
     seedLength: 16,
     swing: 0.55,
     pattern: _.times(32, i => []),
-    tempo: 120
+    tempo: 120,
+    temperature: 0.5
   };
   let stepEls = [],
     hasBeenStarted = false,
@@ -181,10 +181,8 @@ Promise.all([
 
   function generatePattern(seed, length) {
     let seedSeq = toNoteSequence(seed);
-    console.log('seed', seed)
-    console.log('seedSeq', seedSeq)
     return rnn
-      .continueSequence(seedSeq, length, temperature)
+      .continueSequence(seedSeq, length, state.temperature)
       .then(r => seed.concat(fromNoteSequence(r, length)));
   }
 
@@ -686,6 +684,12 @@ Promise.all([
     return state;
   }
 
+  setDrumState = function (update) {
+    state = { ...state, ...update }
+    //update states in other important places
+    Tone.Transport.bpm.value = state.tempo
+  }
+
   getDrumStepCounter = function () {
     return stepCounter;
   }
@@ -768,7 +772,7 @@ Promise.all([
     .addEventListener('input', evt => setSwing(+evt.target.value));
   document
     .querySelector('#temperature')
-    .addEventListener('input', evt => (temperature = +evt.target.value));
+    .addEventListener('input', evt => (state.temperature = +evt.target.value));
   document.querySelector('#tempo').addEventListener('input', evt => {
     Tone.Transport.bpm.value = state.tempo = +evt.target.value;
     oneEighth = Tone.Time('8n').toSeconds();

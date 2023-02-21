@@ -20,13 +20,17 @@ let controller;   // This is where the state machine and game logic lives
 
 let collisionAnimation;   // Where we store and manage the collision animation
 
+let infoPanel;
+
 
 
 function setup() {
 
   createCanvas((displaySize*pixelSize), pixelSize);     // dynamically sets canvas size
 
-  display = new Display(displaySize, pixelSize);        //Initializing the display
+  display = new Display(displaySize, pixelSize);        // Initializing the display
+
+  infoPanel = new InfoPanel();              // Initializing info panel
 
   collisionAnimation = new Animation();     // Initializing animation
 
@@ -37,7 +41,7 @@ function setup() {
 function draw() {
 
   // start with a blank screen
-  background(0, 0, 0);    
+  background(0, 0, 0);
 
   // Runs state machine at determined framerate
   controller.update();
@@ -45,12 +49,13 @@ function draw() {
   // After we've updated our states, we show the current one 
   display.show();
 
+  // Show info panel
+  infoPanel.show();
 
 }
 
 
 function whenAvailable(name, callback) {
-  console.log('waiting for', name)
   var interval = 50; // ms
   window.setTimeout(function() {
       if (window[name]) {

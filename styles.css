@@ -1,5 +1,30 @@
-html,
-body,
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #000;
+  margin: 0;
+  display: flex;
+  font-family: 'Inter', sans-serif;
+
+  /* This centers our sketch horizontally. */
+  justify-content: center;
+
+  /* This centers our sketch vertically. */
+  align-items: center;
+}
+
+.drum-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: white;
+  z-index: 2;
+}
+
 .app {
   margin: 0;
   padding: 0;
