@@ -14,6 +14,10 @@ class Controller {
             generateDrums(seed)
         });
     }
+
+    get_pattern() {
+        
+    }
     
     // This is called from draw() in sketch.js with every frame
     update() {
@@ -33,6 +37,9 @@ class Controller {
                 display.setPixel(0, color(250, 0, 0));
                 display.setPixel(1, color(0, 250, 0));
                 display.setPixel(2, color(0, 0, 250));
+
+                display.show_pattern([[1], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]]);
+                display.show_slider(10);
 
                 break;
 
