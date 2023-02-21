@@ -9,7 +9,7 @@ class Display {
   
       this.displaySize = _displaySize;
       this.pixelSize = _pixelSize;
-      this.initColor = color(0, 0, 0);      // black color
+      this.initColor = color(20, 60, 56);      // black color
       this.displayBuffer = [];
 
       // Assign black to all pixels. Black = off
@@ -32,7 +32,11 @@ class Display {
         display.setPixel(i, _color); 
       }
     }
-
+    show_pattern(pattern){
+        for ( let i=0; i<this.pattern; i++){
+          
+        }
+    }
 
     // Now write it to screen
     // This is the only function in the entire software that writes something directly to the screen.

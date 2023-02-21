@@ -8,7 +8,7 @@ class Controller {
     constructor() {
         this.gameState = "PLAY";
         this.gameTime;
-        let seed = [[1,2,3,4,5,6], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]];
+        let seed = [[1], [], [4], [], [4], [4], [], [], [6], [], [4], [], [4], [1], [], [4]];
         whenAvailable('drumsReady', () => {
             // playPauseDrums()
             generateDrums(seed)
