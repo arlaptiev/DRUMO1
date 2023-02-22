@@ -8,6 +8,8 @@ let R=0;
       let RTotal=20;
       let GTotal=200;
       let BTotal=150;
+let xPosition = 0;
+
 
 class Display {
 
@@ -39,8 +41,7 @@ class Display {
       }
     }
     showPattern(pattern){
-      //print in console "pattern"
-      // console.log(pattern);
+      
       //color pixel based on pattern
       
       for (let i = 0; i < pattern.length; i++){
@@ -90,34 +91,13 @@ class Display {
         }
         
         display.setPixel(i, color(RTotal, GTotal, BTotal));
-        //print in console RTotal, GTotal, BTotal
-       // console.log(RTotal, GTotal, BTotal);
-
-       /* if (pattern[i].length > 0){
-        
-         
-          if(pattern[i] == 1){
-            display.setPixel(i, color(50, 100, 20));
-          }
-          else if(pattern[i] == 2){
-            display.setPixel(i, color(60, 50, 120));
-          }
-          else if(pattern[i] == 3){
-            display.setPixel(i, color(200, 100, 20));
-          }
-          else if(pattern[i] == 4){
-            display.setPixel(i, color(209, 122, 111));
-          }
-
-
-        }
-        else{
-          display.setPixel(i, color(119, 90, 232));
-        }*/
+      
       }
           }
-    showSlider(slider){}
-          
+    showSlider(slider){
+      display.setPixel(slider, color(255, 255, 255));
+    }
+
     // Now write it to screen
     // This is the only function in the entire software that writes something directly to the screen.
     show() {
