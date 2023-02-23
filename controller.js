@@ -115,12 +115,12 @@ function keyPressed() {
       }
 
     // change tempo
-    if (keyCode == UP_ARROW) {
+    if (key == 'p' || key == 'P') {
         if (window['drumsReady']) {
             setDrumState({ tempo: getDrumState().tempo + 0.5 });
         }
       }
-    if (keyCode == DOWN_ARROW) {
+    if (key == 'o' || key == 'O') {
         if (window['drumsReady']) {
             setDrumState({ tempo: getDrumState().tempo - 0.5 });
         }
