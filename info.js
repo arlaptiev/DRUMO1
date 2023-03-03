@@ -6,10 +6,17 @@ class InfoPanel {
       swing: getRandomWeirdChar(),
       temperature: getRandomWeirdChar()
     };
-    let instrument = DRUM_CLASSES[controller.defaultInstrument - 1].toLowerCase()
+
+    // active instruments
+    let instruments = mixer.channels.map(channel => {
+      if (channel.keyPressed) {
+        return channel.instrumentName.toLowerCase();
+      }
+    })
+    let instrumentsStr = instruments.length > 0 ? instruments.join(' ') : '';
 
     // if drums are ready, show real values
-    if (window['drumsReady']) {
+    if (mixer.drumsReady) {
       state = getDrumState();
       state = {
         tempo: state.tempo.toFixed(1),
@@ -18,7 +25,7 @@ class InfoPanel {
       }
     }
 
-    document.querySelector('.drum-info').innerHTML = `${state.tempo} bpm ${state.swing} swing ${state.temperature} temp ${instrument}`;
+    document.querySelector('.drum-info').innerHTML = `${state.tempo} bpm ${state.swing} swing ${state.temperature} temp ${instrumentsStr}`;
   }
   
 }

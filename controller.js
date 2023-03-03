@@ -7,14 +7,6 @@ class Controller {
     // This is the state we start with.
     constructor() {
         this.gameState = "LOAD";
-        this.stepIndx;
-        this.userInput;
-        this.defaultInstrument = 1;
-
-        whenAvailable('drumsReady', () => {
-            playPauseDrums();
-            this.gameState = "PLAY";
-        });
     }
     
     // This is called from draw() in sketch.js with every frame
@@ -28,57 +20,22 @@ class Controller {
             case "LOAD":
                 display.clear();
                 display.setPixel(0, color(250, 0, 0))
-
+                if (mixer.state != "LOAD") {
+                    this.gameState = "PLAY";
+                }
                 break;
 
 
             case "PLAY":
 
-                // waiting for user input from keyPressed()
-
-                // update step index
-                this.stepIndx = getDrumStepCounter() % getDrumState().patternLength;
-
                 // clear screen at frame rate so we always start fresh      
                 display.clear();
                 // display.setPixel(0, color(0, 250, 0))
 
-                display.showPattern(getDrumState().pattern);
-                display.showSlider(this.stepIndx);
-
-                // switch mode
-                if (this.stepIndx == getDrumState().seedLength) {
-                    this.gameState = "GEN";
-                }
+                display.showPattern(mixer.pattern);
+                display.showSlider(mixer.stepIndex);
 
                 break;
-
-
-            case "GEN":
-
-                // update step index
-                this.stepIndx = getDrumStepCounter() % getDrumState().patternLength;
-
-                // generate drums if user input is available
-                if (this.userInput) {
-                    generateDrums(this.userInput);
-                    this.userInput = null;
-                }
-
-                // clear screen at frame rate so we always start fresh      
-                display.clear();
-                // display.setPixel(0, color(0, 0, 250));
-
-                display.showPattern(getDrumState().pattern);
-                display.showSlider(this.stepIndx);
-
-                // switch mode
-                if (this.stepIndx == 0) {
-                    this.gameState = "PLAY";
-                }
-
-                break;
-
 
             // Not used, it's here just for code compliance
             default:
@@ -95,24 +52,33 @@ class Controller {
 // This function gets called when a key on the keyboard is pressed
 function keyPressed() {
 
+    // Space bar
     // TODO remove overflow to neighbor steps
-    if (key == 'A' || key == 'a') {
-
+    if (keyCode === 32) {
         // drum machine is ready
-        if (window['drumsReady']) {
-            let step = getDrumStepCounter() % getDrumState().patternLength;
-
-            // only allow user input in play mode
-            if (step > -1 && step < getDrumState().seedLength) {
-
-                // initialize user input array
-                if (!controller.userInput) {
-                    controller.userInput = _.times(getDrumState().seedLength, i => []);
-                }
-                controller.userInput[controller.stepIndx] = [controller.defaultInstrument];
-            } 
+        if (mixer.drumsReady) {
+            mixer.tap();
         }
-      }
+    }
+
+    // TODO remove overflow to neighbor steps
+    // if (key == 'A' || key == 'a') {
+
+    //     // drum machine is ready
+    //     if (window['drumsReady']) {
+    //         let step = getDrumStepCounter() % getDrumState().patternLength;
+
+    //         // only allow user input in play mode
+    //         if (step > -1 && step < getDrumState().seedLength) {
+
+    //             // initialize user input array
+    //             if (!controller.userInput) {
+    //                 controller.userInput = _.times(getDrumState().seedLength, i => []);
+    //             }
+    //             controller.userInput[controller.stepIndx] = [controller.defaultInstrument];
+    //         } 
+    //     }
+    //   }
 
     // change tempo
     if (keyCode == UP_ARROW) {
@@ -127,9 +93,9 @@ function keyPressed() {
       }
 
     // change instrument
-    if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9') {
-        controller.defaultInstrument = parseInt(key);
-      }
+    // if (key == '1' || key == '2' || key == '3' || key == '4' || key == '5' || key == '6' || key == '7' || key == '8' || key == '9') {
+    //     controller.defaultInstrument = parseInt(key);
+    //   }
 
     // change temperture
     if (key == ':' || key == ';') {

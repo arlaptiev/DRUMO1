@@ -18,6 +18,8 @@ let display;      // Aggregates our final visual output before showing it on the
 
 let controller;   // This is where the state machine and game logic lives
 
+let mixer;
+
 let collisionAnimation;   // Where we store and manage the collision animation
 
 let infoPanel;
@@ -36,12 +38,18 @@ function setup() {
 
   controller = new Controller();            // Initializing controller
 
+  mixer = new Mixer();                      // Initializing mixer
+
+  console.log('Setup complete');
 }
 
 function draw() {
 
   // start with a blank screen
   background(0, 0, 0);
+
+  // Runs mixer
+  mixer.run();
 
   // Runs state machine at determined framerate
   controller.update();

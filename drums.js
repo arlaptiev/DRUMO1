@@ -4,6 +4,7 @@
 window['drumsReady'] = false;
 let playPauseDrums,
   generateDrums,
+  generateSequence,
   getDrumState,
   getDrumStepCounter,
   setDrumState;
@@ -655,6 +656,8 @@ Promise.all([
       hasBeenStarted = true;
     }
   }
+
+  generateSequence = generatePattern
 
   generateDrums = function (seed) {
     // renderPattern(true); // renders, do i need it?
