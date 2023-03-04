@@ -134,7 +134,7 @@ function keyPressed() {
     // change temperture
     if (key == ':' || key == ';') {
         if (window['drumsReady']) {
-            let newTemp = getDrumState().temperature + 0.25 > 1 ? 1.0 : getDrumState().temperature + 0.25;
+            let newTemp = getDrumState().temperature + 0.25 > 2 ? 1.0 : getDrumState().temperature + 0.25;
             setDrumState({ temperature: newTemp });
         }
       }
