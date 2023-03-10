@@ -165,9 +165,12 @@ class Channel {
           if (this.userInput.length < 4) {
             // Single tap input
             this.userInput = [[this.instrument]]
+            let userInputIdx = this.userInputStartIdx // this.userInputStartIdx is going to be nullified, so we need to save it
             generateSequence(this.userInput, this.pattern.length - 1).then(
               result => {
-                this.pattern = result;
+                for (let i = 0; i < this.pattern.length; i++) {
+                  this.pattern[(userInputIdx + i) % result.length] = result[i]
+                }
                 this.mixer.updatePattern();
               }
             );
@@ -177,9 +180,12 @@ class Channel {
           }
         } else if (this.userInput.length < this.pattern.length) {
           // Generate if input length < pattern length
+          let userInputIdx = this.userInputStartIdx // this.userInputStartIdx is going to be nullified, so we need to save it
           generateSequence(this.userInput, this.pattern.length - this.userInput.length).then(
             result => {
-              this.pattern = result;
+              for (let i = 0; i < this.pattern.length; i++) {
+                this.pattern[(userInputIdx + i) % result.length] = result[i]
+              }
               this.mixer.updatePattern();
             }
           );
