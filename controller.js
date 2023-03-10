@@ -100,13 +100,13 @@ function keyPressed() {
     // change temperture
     if (key == ':' || key == ';') {
         if (window['drumsReady']) {
-            let newTemp = getDrumState().temperature + 0.25 > 2 ? 2.0 : getDrumState().temperature + 0.25;
+            let newTemp = getDrumState().temperature + 0.1 > 2 ? 2.0 : getDrumState().temperature + 0.1;
             setDrumState({ temperature: newTemp });
         }
       }
     if (key == 'L' || key == 'l') {
         if (window['drumsReady']) {
-            let newTemp = getDrumState().temperature - 0.25 < 0 ? 0.0 : getDrumState().temperature - 0.25;
+            let newTemp = getDrumState().temperature - 0.1 < 0 ? 0.0 : getDrumState().temperature - 0.1;
             setDrumState({ temperature: newTemp });
         }
     }

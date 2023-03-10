@@ -109,7 +109,9 @@ class Channel {
   run () {
     // Check if activated
     this.keyPressed = keyIsDown(this.instrument + 48); // 1-9
-    this.shiftPressed = keyIsDown(122); // z
+    this.shiftPressed = keyIsDown(90); // z
+
+    console.log(this.shiftPressed)
 
     switch (this.state) {
 
